@@ -39,7 +39,27 @@ python3 src/main.py config --set-loc -6.2088 106.8456 --name "Jakarta"
 
 The skill exposes a unified CLI `src/main.py` that your agent calls.
 
-### Prayer Times
+### Chat Examples (Onboarding)
+
+Once installed, you can talk to your agent naturally:
+
+> **User:** "Set my location to Jakarta"
+> **Agent:** *Updates config to Jakarta coordinates*
+
+> **User:** "Sync my prayer times"
+> **Agent:** *Schedules daily prayer reminders via cron*
+
+> **User:** "When is Maghrib?"
+> **Agent:** *Checks today's schedule and replies*
+
+> **User:** "Check Zakat Nisab"
+> **Agent:** *Fetches current gold price and calculates threshold*
+
+### CLI Reference
+
+If you need to run it manually or debug:
+
+#### Prayer Times
 ```bash
 # Get today's schedule
 python3 src/main.py prayer --today
