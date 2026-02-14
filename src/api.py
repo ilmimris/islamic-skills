@@ -6,8 +6,14 @@ from datetime import datetime
 
 CACHE_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'cache')
 CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'config.json')
+EXAMPLE_CONFIG_PATH = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), 'config.example.json')
 
 def load_config():
+    if not os.path.exists(CONFIG_PATH):
+        import shutil
+        print(f"Config not found. Creating from example: {CONFIG_PATH}")
+        shutil.copy(EXAMPLE_CONFIG_PATH, CONFIG_PATH)
+        
     with open(CONFIG_PATH, 'r') as f:
         return json.load(f)
 

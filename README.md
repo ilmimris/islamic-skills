@@ -28,11 +28,23 @@ pip install -r islamic-companion/requirements.txt
 
 ## Configuration
 
-The skill uses `config.json` for settings. You can update your location via the CLI:
+The skill uses `config.json` for settings.
 
+When first run, it will automatically copy `config.example.json` to `config.json` with default values (Jakarta).
+
+### Update Location
+You can update your location via the CLI:
 ```bash
-# Set location (Example: Jakarta)
 python3 src/main.py config --set-loc -6.2088 106.8456 --name "Jakarta"
+```
+
+### Setup API Key (Zakat)
+To get live Zakat data, get a free API key from [IslamicAPI.com](https://islamicapi.com) and add it to `config.json`:
+
+```json
+"zakat": {
+    "api_key": "YOUR_API_KEY_HERE"
+}
 ```
 
 ## Usage
