@@ -10,6 +10,7 @@ from prayer import handle_prayer_command
 from fasting import handle_fasting_command
 from zakat import handle_zakat_command
 from scheduler import handle_sync_command
+from islamic_calendar import handle_calendar_command
 
 def main():
     parser = argparse.ArgumentParser(description="Islamic Companion CLI")
@@ -29,6 +30,13 @@ def main():
     z_parser.add_argument('--nisab', action='store_true', help="Show Zakat Nisab")
     z_parser.add_argument('--currency', type=str, help="Currency code (e.g., IDR)")
     
+    # Calendar
+    cal_parser = subparsers.add_parser('calendar')
+    cal_parser.add_argument('--city', type=str, help="City name")
+    cal_parser.add_argument('--country', type=str, default="Indonesia", help="Country name (default: Indonesia)")
+    cal_parser.add_argument('--month', type=int, help="Month (1-12)")
+    cal_parser.add_argument('--year', type=int, help="Year (e.g., 2026)")
+
     # Config
     c_parser = subparsers.add_parser('config')
     c_parser.add_argument('--set-loc', nargs=2, metavar=('LAT', 'LONG'), type=float, help="Set latitude and longitude")
@@ -53,6 +61,8 @@ def main():
             handle_zakat_command(args)
         else:
             z_parser.print_help()
+    elif args.command == 'calendar':
+        handle_calendar_command(args)
     elif args.command == 'config':
         if args.set_loc:
             from api import load_config, CONFIG_PATH

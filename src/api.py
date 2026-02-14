@@ -76,6 +76,25 @@ def get_fasting_times():
     # Same as prayer times for Aladhan
     return get_prayer_times()
 
+def get_calendar_by_city(city, country, month=None, year=None):
+    config = load_config()
+    
+    if not month:
+        month = datetime.now().month
+    if not year:
+        year = datetime.now().year
+        
+    params = {
+        'city': city,
+        'country': country,
+        'method': config['calculation']['method'],
+        'school': config['calculation']['school'],
+        'month': month,
+        'year': year
+    }
+    
+    return fetch_data(f'/v1/calendarByCity', params)
+
 def get_zakat_gold_silver(currency=None):
     config = load_config()
     curr = currency or config['zakat']['currency']
