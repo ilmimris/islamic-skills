@@ -6,6 +6,7 @@ A unified Islamic utility suite for OpenClaw agents. Manage prayer times, fastin
 
 -   **Prayer Times:** Accurate daily schedules (Fajr, Dhuhr, Asr, Maghrib, Isha) via Aladhan API.
 -   **Monthly Calendar:** Fetch and display a full month's prayer schedule for any city.
+-   **Daily Quotes:** Setup daily automation to receive inspiring Islamic quotes.
 -   **Smart Scheduler:** Auto-syncs daily prayer reminders to your agent's system cron.
 -   **Fasting Info:** Imsak and Maghrib times for fasting.
 -   **Zakat Calculator:** Check Nisab thresholds for Gold and Silver based on live market data from IslamicAPI.com.
@@ -62,6 +63,9 @@ Once installed, you can talk to your agent naturally:
 > **User:** "Sync my prayer times"
 > **Agent:** *Schedules daily prayer reminders via cron*
 
+> **User:** "Setup daily Islamic quotes"
+> **Agent:** *Schedules a daily turn to deliver an inspiring quote*
+
 > **User:** "Show me the prayer calendar for Serang"
 > **Agent:** *Fetches and displays the monthly schedule*
 
@@ -82,6 +86,15 @@ python3 src/main.py prayer --today
 
 # Sync reminders to OpenClaw cron
 python3 src/main.py prayer --sync
+```
+
+#### Quotes
+```bash
+# Setup daily automation
+python3 src/main.py quotes --setup
+
+# Get a random quote
+python3 src/main.py quotes --random
 ```
 
 #### Monthly Calendar

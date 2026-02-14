@@ -11,6 +11,7 @@ from fasting import handle_fasting_command
 from zakat import handle_zakat_command
 from scheduler import handle_sync_command
 from islamic_calendar import handle_calendar_command
+from quotes import handle_quotes_command
 
 def main():
     parser = argparse.ArgumentParser(description="Islamic Companion CLI")
@@ -36,6 +37,11 @@ def main():
     cal_parser.add_argument('--country', type=str, default="Indonesia", help="Country name (default: Indonesia)")
     cal_parser.add_argument('--month', type=int, help="Month (1-12)")
     cal_parser.add_argument('--year', type=int, help="Year (e.g., 2026)")
+
+    # Quotes
+    q_parser = subparsers.add_parser('quotes')
+    q_parser.add_argument('--setup', action='store_true', help="Setup daily quote automation")
+    q_parser.add_argument('--random', action='store_true', help="Get a random quote")
 
     # Config
     c_parser = subparsers.add_parser('config')
@@ -63,6 +69,8 @@ def main():
             z_parser.print_help()
     elif args.command == 'calendar':
         handle_calendar_command(args)
+    elif args.command == 'quotes':
+        handle_quotes_command(args)
     elif args.command == 'config':
         if args.set_loc:
             from api import load_config, CONFIG_PATH

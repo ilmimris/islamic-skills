@@ -95,6 +95,20 @@ def get_calendar_by_city(city, country, month=None, year=None):
     
     return fetch_data(f'/v1/calendarByCity', params)
 
+def get_random_quote():
+    # Based on the JS found on the site, there are at least 84 quotes
+    import random
+    quote_id = random.randint(1, 84)
+    url = f"https://ilm.islamic.network/items/quotes/{quote_id}?fields=text,reference,translations.*,author.name"
+    
+    try:
+        response = requests.get(url, timeout=10)
+        response.raise_for_status()
+        return response.json()
+    except Exception as e:
+        print(f"Error fetching quote: {e}")
+        return None
+
 def get_zakat_gold_silver(currency=None):
     config = load_config()
     curr = currency or config['zakat']['currency']
