@@ -1,4 +1,4 @@
-from .api import get_zakat_gold_silver, load_config
+from api import get_zakat_gold_silver, load_config
 
 def handle_zakat_command(args):
     config = load_config()

@@ -1,4 +1,4 @@
-from .api import get_prayer_times
+from api import get_prayer_times
 
 def handle_prayer_command(args):
     data = get_prayer_times()

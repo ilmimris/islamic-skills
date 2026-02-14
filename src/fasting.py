@@ -1,4 +1,4 @@
-from .api import get_fasting_times
+from api import get_fasting_times
 
 def handle_fasting_command(args):
     data = get_fasting_times()

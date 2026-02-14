@@ -1,7 +1,7 @@
 import json
 import sys
 from datetime import datetime, timedelta
-from .api import get_prayer_times, load_config
+from api import get_prayer_times, load_config
 
 def handle_sync_command(args):
     data = get_prayer_times()

@@ -1,9 +1,15 @@
 import argparse
 import sys
-from .prayer import handle_prayer_command
-from .fasting import handle_fasting_command
-from .zakat import handle_zakat_command
-from .scheduler import handle_sync_command
+import os
+
+# Add current directory to path so imports work
+current_dir = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(current_dir)
+
+from prayer import handle_prayer_command
+from fasting import handle_fasting_command
+from zakat import handle_zakat_command
+from scheduler import handle_sync_command
 
 def main():
     parser = argparse.ArgumentParser(description="Islamic Companion CLI")
@@ -25,7 +31,8 @@ def main():
     
     # Config
     c_parser = subparsers.add_parser('config')
-    c_parser.add_argument('--set-loc', nargs=2, metavar=('LAT', 'LONG'), help="Set latitude and longitude")
+    c_parser.add_argument('--set-loc', nargs=2, metavar=('LAT', 'LONG'), type=float, help="Set latitude and longitude")
+    c_parser.add_argument('--name', type=str, help="Location name")
 
     args = parser.parse_args()
     
@@ -47,8 +54,18 @@ def main():
         else:
             z_parser.print_help()
     elif args.command == 'config':
-        # Placeholder for config logic if needed later
-        print("Config update not implemented in this version. Edit config.json directly.")
+        if args.set_loc:
+            from api import load_config, CONFIG_PATH
+            import json
+            config = load_config()
+            config['location']['latitude'] = args.set_loc[0]
+            config['location']['longitude'] = args.set_loc[1]
+            if args.name:
+                config['location']['name'] = args.name
+            
+            with open(CONFIG_PATH, 'w') as f:
+                json.dump(config, f, indent=2)
+            print(f"Location updated to {args.name or 'custom coordinates'}: {args.set_loc}")
     else:
         parser.print_help()
 
