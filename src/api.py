@@ -28,22 +28,19 @@ def fetch_data(endpoint, params):
     # Use Aladhan API
     url = f"http://api.aladhan.com{endpoint}"
     
-    # Handle Zakat specially (mock for now as Aladhan doesn't support it)
+    # Handle Zakat specially via IslamicAPI.com
     if 'zakat' in endpoint:
-        # Mock data
-        data = {
-            "code": 200,
-            "status": "OK",
-            "data": {
-                "gold": 1200000, # Example price in IDR/gram
-                "silver": 15000,
-                "currency": params.get('currency', 'IDR')
-            }
-        }
-        with open(cache_file, 'w') as f:
-            json.dump(data, f, indent=2)
-        return data
-
+        config = load_config()
+        api_key = config.get('zakat', {}).get('api_key')
+        
+        if not api_key:
+            return {"error": "Missing API Key. Please get one from https://islamicapi.com/"}
+            
+        # IslamicAPI URL
+        url = "https://islamicapi.com/api/v1/zakat-nisab/"
+        # Merge params
+        params['api_key'] = api_key
+        
     try:
         response = requests.get(url, params=params, timeout=10)
         response.raise_for_status()
@@ -76,4 +73,11 @@ def get_fasting_times():
 def get_zakat_gold_silver(currency=None):
     config = load_config()
     curr = currency or config['zakat']['currency']
-    return fetch_data(f'/v1/zakat/gold-silver', {'currency': curr})
+    
+    # IslamicAPI specific params
+    params = {
+        'currency': curr,
+        'standard': 'common', # hardcoded default for now
+        'unit': 'g'
+    }
+    return fetch_data('zakat', params)

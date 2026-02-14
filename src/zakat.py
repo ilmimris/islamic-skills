@@ -5,6 +5,11 @@ def handle_zakat_command(args):
     currency = args.currency or config['zakat']['currency']
     
     data = get_zakat_gold_silver(currency)
+    
+    if data and 'error' in data:
+        print(f"Error: {data['error']}")
+        return
+
     if not data or 'data' not in data:
         print("Could not retrieve Zakat data.")
         return

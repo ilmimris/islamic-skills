@@ -1,8 +1,8 @@
 {
   "location": {
-    "latitude": -6.2088,
-    "longitude": 106.8456,
-    "name": "Jakarta"
+    "latitude": -6.12,
+    "longitude": 106.1503,
+    "name": "Serang"
   },
   "calculation": {
     "method": 20,
@@ -10,6 +10,7 @@
   },
   "zakat": {
     "currency": "IDR",
-    "gold_gram_threshold": 85
+    "gold_gram_threshold": 85,
+    "api_key": ""
   }
 }
