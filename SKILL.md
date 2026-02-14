@@ -1,3 +1,8 @@
+---
+name: islamic-companion
+description: Unified Islamic utilities for prayer times, fasting schedules, and Zakat calculations using a shared configuration.
+---
+
 # Islamic Companion Skill
 
 **Unified tool for prayer times, fasting schedules, and Zakat calculations.**
