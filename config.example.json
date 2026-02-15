@@ -12,5 +12,6 @@
     "currency": "IDR",
     "gold_gram_threshold": 85,
     "api_key": ""
-  }
+  },
+  "quran_language": "id"
 }
