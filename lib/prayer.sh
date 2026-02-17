@@ -9,10 +9,11 @@ source "${SCRIPT_DIR}/api.sh"
 source "${SCRIPT_DIR}/format.sh"
 
 # Get Prayer Times
-# Usage: get_prayer_times lat long
+# Usage: get_prayer_times lat long [timezone]
 get_prayer_times() {
     local lat="$1"
     local long="$2"
+    local tz="${3:-$TIMEZONE}"
     
     if [ -z "$lat" ] || [ -z "$long" ]; then
         echo "Error: Latitude and longitude are required." >&2
@@ -23,7 +24,7 @@ get_prayer_times() {
     
     # Get today's date
     local today=$(date "+%d-%m-%Y")
-    local cache_key="timings_${today}"
+    local cache_key="timings_${today}_${tz//\//_}"
     
     # Check cache
     if cache_exists "$cache_key"; then
@@ -32,7 +33,11 @@ get_prayer_times() {
     fi
     
     # Fetch from API
-    local url="https://api.aladhan.com/v1/timings/${today}?latitude=${LOCATION_LATITUDE}&longitude=${LOCATION_LONGITUDE}&method=${CALCULATION_METHOD}&school=${CALCULATION_SCHOOL}"
+    local url="https://api.aladhan.com/v1/timings/${today}?latitude=${lat}&longitude=${long}&method=${CALCULATION_METHOD}&school=${CALCULATION_SCHOOL}"
+    
+    if [ ! -z "$tz" ]; then
+        url="${url}&timezonestring=$(url_encode "$tz")"
+    fi
     
     local response=$(api_call "$url")
     if [ $? -eq 0 ] && [ ! -z "$response" ]; then
@@ -50,6 +55,7 @@ handle_prayer() {
     local do_sync=false
     local lat=""
     local long=""
+    local tz=""
     
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -57,6 +63,7 @@ handle_prayer() {
             --sync) do_sync=true; shift ;;
             --lat) lat="$2"; shift 2 ;;
             --long) long="$2"; shift 2 ;;
+            --timezone|--tz) tz="$2"; shift 2 ;;
             *) shift ;;
         esac
     done
@@ -68,7 +75,7 @@ handle_prayer() {
     fi
     
     if [ "$show_today" = true ]; then
-        local data=$(get_prayer_times "$lat" "$long")
+        local data=$(get_prayer_times "$lat" "$long" "$tz")
         if [ $? -ne 0 ]; then
             echo "Could not retrieve prayer times."
             return 1

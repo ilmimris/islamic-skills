@@ -32,6 +32,7 @@ generate_bash_config() {
     local zakat_gold=$(json_get "$json_content" "zakat.gold_gram_threshold")
     local zakat_key=$(json_get "$json_content" "zakat.api_key")
     
+    local timezone=$(json_get "$json_content" "timezone")
     local quran_lang=$(json_get "$json_content" "quran_language")
     
     # Write to bash file
@@ -46,6 +47,7 @@ ZAKAT_CURRENCY="${zakat_curr:-IDR}"
 ZAKAT_GOLD_THRESHOLD="${zakat_gold:-85}"
 ZAKAT_API_KEY="\${ZAKAT_API_KEY:-$zakat_key}"
 
+TIMEZONE="${timezone:-UTC}"
 QURAN_LANGUAGE="${quran_lang:-id}"
 EOF
 }
@@ -63,9 +65,8 @@ load_config() {
         fi
     fi
     
-    # Check if we need to regenerate bash config
-    # Regenerate if bash config doesn't exist OR json config is newer
-    if [ ! -f "$CONFIG_BASH" ] || [ "$CONFIG_JSON" -nt "$CONFIG_BASH" ]; then
+    # Regenerate if bash config doesn't exist OR json config is newer OR generator script is newer
+    if [ ! -f "$CONFIG_BASH" ] || [ "$CONFIG_JSON" -nt "$CONFIG_BASH" ] || [ "${SCRIPT_DIR}/config.sh" -nt "$CONFIG_BASH" ]; then
         generate_bash_config "$CONFIG_JSON" "$CONFIG_BASH"
     fi
     

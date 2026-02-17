@@ -54,12 +54,14 @@ def main():
     p_parser.add_argument('--sync', action='store_true', help="Sync schedule to cron")
     p_parser.add_argument('--lat', type=float, help="Latitude")
     p_parser.add_argument('--long', type=float, help="Longitude")
+    p_parser.add_argument('--timezone', '--tz', type=str, help="Timezone (e.g., Asia/Jakarta)")
     
     # Fasting
     f_parser = subparsers.add_parser('fasting')
     f_parser.add_argument('--today', action='store_true', help="Show fasting times")
     f_parser.add_argument('--lat', type=float, help="Latitude")
     f_parser.add_argument('--long', type=float, help="Longitude")
+    f_parser.add_argument('--timezone', '--tz', type=str, help="Timezone (e.g., Asia/Jakarta)")
     
     # Zakat
     z_parser = subparsers.add_parser('zakat')
@@ -72,6 +74,7 @@ def main():
     cal_parser.add_argument('--country', type=str, default="Indonesia", help="Country name (default: Indonesia)")
     cal_parser.add_argument('--month', type=int, help="Month (1-12)")
     cal_parser.add_argument('--year', type=int, help="Year (e.g., 2026)")
+    cal_parser.add_argument('--timezone', '--tz', type=str, help="Timezone (e.g., Asia/Jakarta)")
 
     # Quotes
     q_parser = subparsers.add_parser('quotes')

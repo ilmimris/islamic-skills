@@ -9,16 +9,17 @@ source "${SCRIPT_DIR}/cache.sh"
 source "${SCRIPT_DIR}/format.sh"
 
 # Get Calendar Data
-# Usage: get_calendar_data "city" "country" "month" "year"
+# Usage: get_calendar_data "city" "country" "month" "year" [timezone]
 get_calendar_data() {
     local city="$1"
     local country="$2"
     local month="$3"
     local year="$4"
+    local tz="${5:-$TIMEZONE}"
     
     load_config
     
-    local cache_key="calendar_${city}_${month}_${year}"
+    local cache_key="calendar_${city}_${month}_${year}_${tz//\//_}"
     if cache_exists "$cache_key"; then
         cache_read "$cache_key"
         return 0
@@ -28,7 +29,12 @@ get_calendar_data() {
     local enc_city=$(url_encode "$city")
     local enc_country=$(url_encode "$country")
     
+    
     local url="http://api.aladhan.com/v1/calendarByCity?city=${enc_city}&country=${enc_country}&method=${CALCULATION_METHOD}&school=${CALCULATION_SCHOOL}&month=${month}&year=${year}"
+    
+    if [ ! -z "$tz" ]; then
+        url="${url}&timezonestring=$(url_encode "$tz")"
+    fi
     
     local response=$(api_call "$url")
     if [ $? -eq 0 ] && [ ! -z "$response" ]; then
@@ -46,6 +52,7 @@ handle_calendar() {
     local country="Indonesia"
     local month=$(date "+%m")
     local year=$(date "+%Y")
+    local tz=""
     
     while [[ $# -gt 0 ]]; do
         case "$1" in
@@ -53,6 +60,7 @@ handle_calendar() {
             --country) country="$2"; shift 2 ;;
             --month) month="$2"; shift 2 ;;
             --year) year="$2"; shift 2 ;;
+            --timezone|--tz) tz="$2"; shift 2 ;;
             *) shift ;;
         esac
     done
@@ -63,7 +71,7 @@ handle_calendar() {
         return 1
     fi
     
-    local data=$(get_calendar_data "$city" "$country" "$month" "$year")
+    local data=$(get_calendar_data "$city" "$country" "$month" "$year" "$tz")
     if [ $? -ne 0 ]; then
         echo "Could not retrieve calendar for $city, $country."
         return 1

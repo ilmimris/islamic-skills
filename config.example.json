@@ -8,5 +8,6 @@
     "gold_gram_threshold": 85,
     "api_key": ""
   },
+  "timezone": "",
   "quran_language": "id"
 }

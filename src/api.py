@@ -60,7 +60,7 @@ def fetch_data(endpoint, params):
         print(f"Error fetching data: {e}")
         return None
 
-def get_prayer_times(latitude=None, longitude=None):
+def get_prayer_times(latitude=None, longitude=None, timezone=None):
     config = load_config()
     
     if latitude is None or longitude is None:
@@ -72,15 +72,18 @@ def get_prayer_times(latitude=None, longitude=None):
         'method': config['calculation']['method'],
         'school': config['calculation']['school']
     }
-    # Aladhan API uses DD-MM-YYYY in path
     today = datetime.now().strftime("%d-%m-%Y")
+    
+    tz = timezone or config.get('timezone') or 'UTC'
+    params['timezonestring'] = tz
+        
     return fetch_data(f'/v1/timings/{today}', params)
 
-def get_fasting_times(latitude=None, longitude=None):
+def get_fasting_times(latitude=None, longitude=None, timezone=None):
     # Same as prayer times for Aladhan
-    return get_prayer_times(latitude, longitude)
+    return get_prayer_times(latitude, longitude, timezone)
 
-def get_calendar_by_city(city, country, month=None, year=None):
+def get_calendar_by_city(city, country, month=None, year=None, timezone=None):
     config = load_config()
     
     if not month:
@@ -97,6 +100,9 @@ def get_calendar_by_city(city, country, month=None, year=None):
         'year': year
     }
     
+    tz = timezone or config.get('timezone') or 'UTC'
+    params['timezonestring'] = tz
+        
     return fetch_data(f'/v1/calendarByCity', params)
 
 def get_random_quote():

@@ -13,7 +13,7 @@ def handle_calendar_command(args):
         print("Error: City is required for the calendar command. Use --city.")
         return
 
-    data = get_calendar_by_city(city, country, month, year)
+    data = get_calendar_by_city(city, country, month, year, timezone=getattr(args, 'timezone', None))
     
     if not data or 'data' not in data:
         print(f"Could not retrieve calendar for {city}, {country}.")

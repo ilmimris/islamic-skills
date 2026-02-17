@@ -1,7 +1,7 @@
 from api import get_fasting_times
 
 def handle_fasting_command(args):
-    data = get_fasting_times(latitude=args.lat, longitude=args.long)
+    data = get_fasting_times(latitude=args.lat, longitude=args.long, timezone=getattr(args, 'timezone', None))
     if not data or 'data' not in data:
         print("Could not retrieve fasting times.")
         return

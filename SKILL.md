@@ -25,11 +25,11 @@ This skill consolidates Islamic utilities into a single CLI with shared configur
 Run the CLI using the bash script:
 
 ```bash
-# Get today's prayer times (provide latitude and longitude)
-./bin/islamic-companion prayer --today --lat -6.2088 --long 106.8456
+# Get today's prayer times for Jakarta (explicit timezone override)
+./bin/islamic-companion prayer --today --lat -6.2088 --long 106.8456 --tz Asia/Jakarta
 
 # Setup daily quote automation for specific location
-./bin/islamic-companion prayer --sync --lat -6.2088 --long 106.8456
+./bin/islamic-companion prayer --sync --lat -6.2088 --long 106.8456 --timezone Asia/Jakarta
 
 # Get a random quote
 ./bin/islamic-companion quotes --random
@@ -58,7 +58,7 @@ Run the CLI using the bash script:
 
 ## Configuration
 
-Edit `config.json` to set your calculation method and Zakat preferences. Location is now provided on-the-fly via CLI arguments.
+Edit `config.json` to set your calculation method and Zakat preferences. Location is now provided on-the-fly via CLI arguments. The system defaults to **UTC** if no timezone is specified.
 
 ```json
 {
@@ -71,6 +71,7 @@ Edit `config.json` to set your calculation method and Zakat preferences. Locatio
     "gold_gram_threshold": 85,
     "api_key": ""
   },
+  "timezone": "Asia/Jakarta",
   "quran_language": "id"
 }
 ```
