@@ -78,7 +78,13 @@ case "$1" in
         handle_quran "$@"
         ;;
     config)
-        echo "Config options for school/method coming soon. Location is now provided on-the-fly via --lat and --long."
+        echo "Configuration File: ${LIB_DIR}/../config.json"
+        echo "------------------------------------------------"
+        echo "Method: ${CALCULATION_METHOD:-20}"
+        echo "School: ${CALCULATION_SCHOOL:-0}"
+        echo "Timezone: ${TIMEZONE:-UTC}"
+        echo "Zakat Currency: ${ZAKAT_CURRENCY:-IDR}"
+        echo "Quran Language: ${QURAN_LANGUAGE:-id}"
         ;;
     *)
         show_help

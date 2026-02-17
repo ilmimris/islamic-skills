@@ -70,7 +70,7 @@ handle_prayer() {
     
     if [ "$do_sync" = true ]; then
         source "${SCRIPT_DIR}/scheduler.sh"
-        handle_sync "$lat" "$long"
+        handle_sync "$lat" "$long" "$tz"
         return
     fi
     
@@ -87,8 +87,10 @@ handle_prayer() {
         local asr=$(json_get "$data" "data.timings.Asr")
         local maghrib=$(json_get "$data" "data.timings.Maghrib")
         local isha=$(json_get "$data" "data.timings.Isha")
+        local timezone=$(json_get "$data" "data.meta.timezone")
         
         print_header "Prayer Times for $date_readable"
+        print_kv "Timezone" "$timezone"
         print_kv "Fajr" "$fajr"
         print_kv "Dhuhr" "$dhuhr"
         print_kv "Asr" "$asr"

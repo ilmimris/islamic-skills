@@ -30,8 +30,10 @@ handle_fasting() {
         local date_readable=$(json_get "$data" "data.date.readable")
         local imsak=$(json_get "$data" "data.timings.Imsak")
         local maghrib=$(json_get "$data" "data.timings.Maghrib")
+        local timezone=$(json_get "$data" "data.meta.timezone")
         
         print_header "Fasting Schedule for $date_readable"
+        print_kv "Timezone" "$timezone"
         print_kv "Imsak (Stop Eating)" "$imsak"
         print_kv "Maghrib (Break Fast)" "$maghrib"
         echo ""

@@ -77,7 +77,18 @@ handle_calendar() {
         return 1
     fi
     
+        local timezone=""
+    if [ "$HAS_JQ" = true ]; then
+        timezone=$(echo "$data" | jq -r '.data[0].meta.timezone // empty')
+    else
+        timezone=$(echo "$data" | grep -o "\"timezone\":[[:space:]]*\"[^\"]*\"" | head -n1 | cut -d'"' -f4)
+    fi
+    
     print_header "Prayer Calendar for $month/$year - $city, $country"
+    if [ ! -z "$timezone" ]; then
+        echo "Timezone: $timezone"
+        echo ""
+    fi
     printf "%-12s %-8s %-8s %-8s %-8s %-8s\n" "Date" "Fajr" "Dhuhr" "Asr" "Maghrib" "Isha"
     print_separator
     

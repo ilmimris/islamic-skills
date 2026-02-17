@@ -14,7 +14,9 @@ def handle_fasting_command(args):
     # If not, adapt. Let's assume standard response.
     timings = data['data']['timings']
     date_readable = data['data']['date']['readable']
+    timezone = data['data']['meta']['timezone']
 
     print(f"Fasting Schedule for {date_readable}:")
+    print(f"Timezone: {timezone}")
     print(f"Imsak (Stop Eating): {timings['Imsak']}")
     print(f"Maghrib (Break Fast): {timings['Maghrib']}")

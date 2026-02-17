@@ -7,12 +7,15 @@ source "${SCRIPT_DIR}/prayer.sh"
 
 # Handle Sync Command
 # Usage: handle_sync lat long
+# Handle Sync Command
+# Usage: handle_sync lat long [timezone]
 handle_sync() {
     local lat="$1"
     local long="$2"
+    local tz="$3"
     
     # We need prayer times for today
-    local data=$(get_prayer_times "$lat" "$long")
+    local data=$(get_prayer_times "$lat" "$long" "$tz")
     
     if [ -z "$data" ]; then
         echo "Sync failed: No data."

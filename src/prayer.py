@@ -8,8 +8,10 @@ def handle_prayer_command(args):
 
     timings = data['data']['timings']
     date_readable = data['data']['date']['readable']
+    timezone = data['data']['meta']['timezone']
     
     print(f"Prayer Times for {date_readable}:")
+    print(f"Timezone: {timezone}")
     print(f"Fajr:    {timings['Fajr']}")
     print(f"Dhuhr:   {timings['Dhuhr']}")
     print(f"Asr:     {timings['Asr']}")

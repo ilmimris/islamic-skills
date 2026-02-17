@@ -19,7 +19,13 @@ def handle_calendar_command(args):
         print(f"Could not retrieve calendar for {city}, {country}.")
         return
 
-    print(f"\nPrayer Calendar for {month}/{year} - {city}, {country}\n")
+    # Get timezone from the first entry if available
+    timezone = "Unknown"
+    if data.get('data') and len(data['data']) > 0:
+        timezone = data['data'][0].get('meta', {}).get('timezone', 'Unknown')
+
+    print(f"\nPrayer Calendar for {month}/{year} - {city}, {country}")
+    print(f"Timezone: {timezone}\n")
     print(f"{'Date':<12} {'Fajr':<8} {'Dhuhr':<8} {'Asr':<8} {'Maghrib':<8} {'Isha':<8}")
     print("-" * 60)
     

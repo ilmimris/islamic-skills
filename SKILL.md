@@ -38,7 +38,7 @@ Run the CLI using the bash script:
 ./bin/islamic-companion calendar --city "Serang" --month 2 --year 2026
 
 # Sync prayer schedule to cron (generates commands)
-./bin/islamic-companion prayer --sync
+./bin/islamic-companion prayer --sync --lat -6.2088 --long 106.8456 --tz Asia/Jakarta
 
 # Check fasting times (Imsak/Maghrib)
 ./bin/islamic-companion fasting --today --lat -6.2088 --long 106.8456
@@ -58,7 +58,7 @@ Run the CLI using the bash script:
 
 ## Configuration
 
-Edit `config.json` to set your calculation method and Zakat preferences. Location is now provided on-the-fly via CLI arguments. The system defaults to **UTC** if no timezone is specified.
+Edit `config.json` to set your calculation method and Zakat preferences. Location is provided via CLI arguments. Defaults to **UTC** if no timezone is specified.
 
 ```json
 {
@@ -96,8 +96,8 @@ Edit `config.json` to set your calculation method and Zakat preferences. Locatio
 
 ## Dependencies
 
-- **System:** `bash`, `curl`, `jq` (highly recommended)
-- **Python (Optional for some features):** `python3`, `requests` (Install via `pip install -r requirements.txt`)
+- **System:** `bash`, `curl`, `jq` (Required for Quran features and recommended for speed)
+- **Python (Alternative Implementation):** `python3`, `requests` (Only needed if using `src/main.py` directly)
 
 ## Security & Privacy
 
@@ -106,6 +106,8 @@ Edit `config.json` to set your calculation method and Zakat preferences. Locatio
 
 > [!IMPORTANT]
 > **Automation**: The `--sync` and `--setup` commands generate cron schedules. Always review the output before adding it to your system crontab.
+>
+> If you are using the `cron` tool, you **MUST** parse the JSON string from the `CRON_ADD:` output into a JSON object. Do **not** pass the string directly.
 
 ## Installation
 
