@@ -42,4 +42,6 @@ def handle_sync_command(args):
             # Print in a format the agent can potentially parse or user can see
             print(f"CRON_ADD: {json.dumps(job)}")
             
+    print("SECURITY NOTICE: The following CRON_ADD lines will schedule jobs.")
+    print("Please review the commands below before allowing them to run, as they will execute code on this machine.")
     print("Sync complete. Parse lines starting with CRON_ADD to schedule.")

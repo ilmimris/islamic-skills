@@ -19,7 +19,7 @@ api_call() {
         # Using -w to get http code at the end
         response=$(curl -sL -w "\n%{http_code}" "$url")
         http_code=$(echo "$response" | tail -n1)
-        content=$(echo "$response" | head -n -1)
+        content=$(echo "$response" | sed '$d')
         
         if [ "$http_code" = "200" ]; then
             # Validate JSON if possible

@@ -45,7 +45,8 @@ handle_sync() {
             local iso_time="${today_str}T${time_str}:00"
             
             # Simple JSON construction
-            local job="{\"name\": \"prayer-${prayer,,}-${today_str}\", \"schedule\": {\"kind\": \"at\", \"at\": \"${iso_time}\"}, \"payload\": {\"kind\": \"systemEvent\", \"text\": \"It is time for ${prayer} prayer.\"}, \"sessionTarget\": \"main\"}"
+            local prayer_lower=$(echo "$prayer" | tr '[:upper:]' '[:lower:]')
+            local job="{\"name\": \"prayer-${prayer_lower}-${today_str}\", \"schedule\": {\"kind\": \"at\", \"at\": \"${iso_time}\"}, \"payload\": {\"kind\": \"systemEvent\", \"text\": \"It is time for ${prayer} prayer.\"}, \"sessionTarget\": \"main\"}"
             
             echo "CRON_ADD: $job"
         fi
