@@ -103,6 +103,31 @@ Note: `config.bash` is auto-generated from `config.json` for performance.
 
 ## Dependencies
 
-- `bash`
-- `curl`
-- `jq` (Recommended for best performance, but limited fallback available)
+- **System:** `bash`, `curl`, `jq` (highly recommended)
+- **Python (Optional for some features):** `python3`, `requests` (Install via `pip install -r requirements.txt`)
+
+## Security & Privacy
+
+> [!WARNING]
+> **API Keys**: The Zakat feature uses an API key. You can store it in `config.json` (less secure) or export it as an environment variable `ZAKAT_API_KEY` (recommended).
+
+> [!IMPORTANT]
+> **Automation**: The `--sync` and `--setup` commands generate cron schedules. Always review the output before adding it to your system crontab.
+
+## Installation
+
+1. Clone the repository or download the skill.
+2. Install Python dependencies:
+   ```bash
+   pip install -r requirements.txt
+   ```
+3. Ensure `curl` is installed. `jq` is recommended for JSON parsing speed and reliability.
+
+## Usage
+
+Run the CLI using the bash script wrapper, which handles configuration loading and environment setup:
+
+```bash
+# Get today's prayer times (uses HTTPS)
+./bin/islamic-companion prayer --today
+
