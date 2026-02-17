@@ -41,7 +41,7 @@ generate_bash_config() {
 # Edit config.json instead
 
 CALCULATION_METHOD="${method:-20}"
-CALCULATION_SCHOOL="${school:-1}"
+CALCULATION_SCHOOL="${school:-0}"
 
 ZAKAT_CURRENCY="${zakat_curr:-IDR}"
 ZAKAT_GOLD_THRESHOLD="${zakat_gold:-85}"
