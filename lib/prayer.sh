@@ -24,7 +24,7 @@ get_prayer_times() {
     
     # Get today's date
     local today=$(date "+%d-%m-%Y")
-    local cache_key="timings_${today}_${tz//\//_}"
+    local cache_key="timings_${lat}_${long}_${today}_${tz//\//_}"
     
     # Check cache
     if cache_exists "$cache_key"; then
