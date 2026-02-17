@@ -1,120 +1,88 @@
 # Islamic Companion Skill
 
-A unified Islamic utility suite for OpenClaw agents. Manage prayer times, fasting schedules, and Zakat calculations from a single, cohesive interface.
+**Unified tool for prayer times, fasting schedules, and Zakat calculations.**
+
+This skill consolidates Islamic utilities into a single CLI with shared configuration and efficient caching.
 
 ## Features
 
--   **Prayer Times:** Accurate daily schedules (Fajr, Dhuhr, Asr, Maghrib, Isha) via Aladhan API.
--   **Monthly Calendar:** Fetch and display a full month's prayer schedule for any city.
--   **Daily Quotes:** Setup daily automation to receive inspiring Islamic quotes.
--   **Smart Scheduler:** Auto-syncs daily prayer reminders to your agent's system cron.
--   **Fasting Info:** Imsak and Maghrib times for fasting.
--   **Zakat Calculator:** Check Nisab thresholds for Gold and Silver based on live market data from IslamicAPI.com.
--   **Unified Config:** Set location and calculation method once for all tools.
+- **Prayer Times:** Retrieve daily prayer times (Fajr, Dhuhr, Asr, Maghrib, Isha).
+- **Fasting:** Check Imsak and Maghrib times for fasting.
+- **Zakat:** Calculate Nisab thresholds for Gold and Silver based on current market prices.
+- **Quran:** Search for verses by keyword or fetch specific Surah/Ayah with translation.
+- **Calendar:** Generate a monthly prayer schedule for any city.
+- **Quotes:** Fetch and display random Islamic quotes or setup daily automation.
+- **Scheduler:** Generate OpenClaw cron commands to schedule daily prayer reminders.
+- **Caching:** Minimizes API calls by caching daily results locally.
 
-## Installation
+## Usage
 
-Install via the skills CLI:
-
-```bash
-npx skills add ilmimris/islamic-skills
-```
-
-Or install manually:
+Run the CLI using the bash script:
 
 ```bash
-cd skills
-git clone https://github.com/ilmimris/islamic-skills.git islamic-companion
-pip install -r islamic-companion/requirements.txt
+# Get today's prayer times
+./bin/islamic-companion prayer --today
+
+# Setup daily quote automation
+./bin/islamic-companion quotes --setup
+
+# Get a random quote
+./bin/islamic-companion quotes --random
+
+# Get monthly calendar (Example: Serang, Banten)
+./bin/islamic-companion calendar --city "Serang" --month 2 --year 2026
+
+# Sync prayer schedule to cron (generates commands)
+./bin/islamic-companion prayer --sync
+
+# Check fasting times (Imsak/Maghrib)
+./bin/islamic-companion fasting --today
+
+# Check Zakat Nisab values
+./bin/islamic-companion zakat --nisab
+
+# Search Quran for keyword
+./bin/islamic-companion quran --search "sabar"
+
+# Get specific Surah (e.g., Al-Fatihah)
+./bin/islamic-companion quran --surah 1
+
+# Get specific Ayah (e.g., Al-Baqarah:255)
+./bin/islamic-companion quran --surah 2 --ayah 255
 ```
 
 ## Configuration
 
-The skill uses `config.json` for settings.
-
-When first run, it will automatically copy `config.example.json` to `config.json` with default values (Jakarta).
-
-### Update Location
-You can update your location via the CLI:
-```bash
-python3 src/main.py config --set-loc -6.2088 106.8456 --name "Jakarta"
-```
-
-### Setup API Key (Zakat)
-To get live Zakat data, get a free API key from [IslamicAPI.com](https://islamicapi.com) and add it to `config.json`:
+Edit `skills/islamic-companion/config.json` to set your location and calculation method.
+Note: `config.bash` is auto-generated from `config.json` for performance.
 
 ```json
-"zakat": {
-    "api_key": "YOUR_API_KEY_HERE"
+{
+  "location": {
+    "latitude": -6.2088,
+    "longitude": 106.8456,
+    "name": "Jakarta"
+  },
+  "calculation": {
+    "method": 20,
+    "school": 1
+  },
+  "zakat": {
+    "currency": "IDR",
+    "gold_gram_threshold": 85,
+    "api_key": ""
+  },
+  "quran_language": "id"
 }
 ```
 
-## Usage
+### Calculation Methods
+- **Method 20:** Kemenag RI (Indonesia)
+- **School 1:** Standard (Shafi, Maliki, Hanbali)
+- **School 2:** Hanafi
 
-The skill exposes a unified CLI `src/main.py` that your agent calls.
+## Dependencies
 
-### Chat Examples (Onboarding)
-
-Once installed, you can talk to your agent naturally:
-
-> **User:** "Set my location to Jakarta"
-> **Agent:** *Updates config to Jakarta coordinates*
-
-> **User:** "Sync my prayer times"
-> **Agent:** *Schedules daily prayer reminders via cron*
-
-> **User:** "Setup daily Islamic quotes"
-> **Agent:** *Schedules a daily turn to deliver an inspiring quote*
-
-> **User:** "Show me the prayer calendar for Serang"
-> **Agent:** *Fetches and displays the monthly schedule*
-
-> **User:** "When is Maghrib?"
-> **Agent:** *Checks today's schedule and replies*
-
-> **User:** "Check Zakat Nisab"
-> **Agent:** *Fetches current gold price and calculates threshold*
-
-### CLI Reference
-
-If you need to run it manually or debug:
-
-#### Prayer Times
-```bash
-# Get today's schedule
-python3 src/main.py prayer --today
-
-# Sync reminders to OpenClaw cron
-python3 src/main.py prayer --sync
-```
-
-#### Quotes
-```bash
-# Setup daily automation
-python3 src/main.py quotes --setup
-
-# Get a random quote
-python3 src/main.py quotes --random
-```
-
-#### Monthly Calendar
-```bash
-# Get calendar for a city
-python3 src/main.py calendar --city "Serang" --month 2 --year 2026
-```
-
-### Fasting
-```bash
-# Check Imsak/Iftar times
-python3 src/main.py fasting --today
-```
-
-### Zakat
-```bash
-# Check current Nisab thresholds
-python3 src/main.py zakat --nisab --currency IDR
-```
-
-## License
-
-MIT
+- `bash`
+- `curl`
+- `jq` (Recommended for best performance, but limited fallback available)

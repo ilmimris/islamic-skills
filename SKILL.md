@@ -22,43 +22,44 @@ This skill consolidates Islamic utilities into a single CLI with shared configur
 
 ## Usage
 
-Run the CLI using python:
+Run the CLI using the bash script:
 
 ```bash
 # Get today's prayer times
-python3 -m skills.islamic_companion.src.main prayer --today
+./bin/islamic-companion prayer --today
 
 # Setup daily quote automation
-python3 -m skills.islamic_companion.src.main quotes --setup
+./bin/islamic-companion quotes --setup
 
 # Get a random quote
-python3 -m skills.islamic_companion.src.main quotes --random
+./bin/islamic-companion quotes --random
 
 # Get monthly calendar (Example: Serang, Banten)
-python3 -m skills.islamic_companion.src.main calendar --city "Serang" --month 2 --year 2026
+./bin/islamic-companion calendar --city "Serang" --month 2 --year 2026
 
 # Sync prayer schedule to cron (generates commands)
-python3 -m skills.islamic_companion.src.main prayer --sync
+./bin/islamic-companion prayer --sync
 
 # Check fasting times (Imsak/Maghrib)
-python3 -m skills.islamic_companion.src.main fasting --today
+./bin/islamic-companion fasting --today
 
 # Check Zakat Nisab values
-python3 -m skills.islamic_companion.src.main zakat --nisab
+./bin/islamic-companion zakat --nisab
 
 # Search Quran for keyword
-python3 -m skills.islamic_companion.src.main quran --search "sabar"
+./bin/islamic-companion quran --search "sabar"
 
 # Get specific Surah (e.g., Al-Fatihah)
-python3 -m skills.islamic_companion.src.main quran --surah 1
+./bin/islamic-companion quran --surah 1
 
 # Get specific Ayah (e.g., Al-Baqarah:255)
-python3 -m skills.islamic_companion.src.main quran --surah 2 --ayah 255
+./bin/islamic-companion quran --surah 2 --ayah 255
 ```
 
 ## Configuration
 
 Edit `skills/islamic-companion/config.json` to set your location and calculation method.
+Note: `config.bash` is auto-generated from `config.json` for performance.
 
 ```json
 {
@@ -89,17 +90,19 @@ Edit `skills/islamic-companion/config.json` to set your location and calculation
 
 | User Intent | Command Executed |
 | :--- | :--- |
-| "Get prayer times" | `python3 -m skills.islamic_companion.src.main prayer --today` |
-| "Show me the calendar for [City]" | `python3 -m skills.islamic_companion.src.main calendar --city [City]` |
-| "Setup daily Islamic quotes" | `python3 -m skills.islamic_companion.src.main quotes --setup` |
-| "Give me a random Islamic quote" | `python3 -m skills.islamic_companion.src.main quotes --random` |
-| "Sync prayer schedule" | `python3 -m skills.islamic_companion.src.main prayer --sync` |
-| "When is Imsak?" | `python3 -m skills.islamic_companion.src.main fasting --today` |
-| "Check Zakat Nisab" | `python3 -m skills.islamic_companion.src.main zakat --nisab` |
-| "Search Quran for [keyword]" | `python3 -m skills.islamic_companion.src.main quran --search "[keyword]"` |
-| "Read Surah [Name/Number]" | `python3 -m skills.islamic_companion.src.main quran --surah [Number]` |
-| "Read Surah [Number] Ayah [Number]" | `python3 -m skills.islamic_companion.src.main quran --surah [Number] --ayah [Number]` |
+| "Get prayer times" | `./bin/islamic-companion prayer --today` |
+| "Show me the calendar for [City]" | `./bin/islamic-companion calendar --city [City]` |
+| "Setup daily Islamic quotes" | `./bin/islamic-companion quotes --setup` |
+| "Give me a random Islamic quote" | `./bin/islamic-companion quotes --random` |
+| "Sync prayer schedule" | `./bin/islamic-companion prayer --sync` |
+| "When is Imsak?" | `./bin/islamic-companion fasting --today` |
+| "Check Zakat Nisab" | `./bin/islamic-companion zakat --nisab` |
+| "Search Quran for [keyword]" | `./bin/islamic-companion quran --search "[keyword]"` |
+| "Read Surah [Name/Number]" | `./bin/islamic-companion quran --surah [Number]` |
+| "Read Surah [Number] Ayah [Number]" | `./bin/islamic-companion quran --surah [Number] --ayah [Number]` |
 
 ## Dependencies
 
-- `requests`
+- `bash`
+- `curl`
+- `jq` (Recommended for best performance, but limited fallback available)

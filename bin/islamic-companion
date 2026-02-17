@@ -1,0 +1,102 @@
+#!/bin/bash
+
+# Islamic Companion CLI (Bash Version)
+
+# Set UTF-8
+export LANG=en_US.UTF-8
+export LC_ALL=en_US.UTF-8
+
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+LIB_DIR="$(dirname "$SCRIPT_DIR")/lib"
+
+# Load Config
+source "${LIB_DIR}/config.sh"
+
+# Help Function
+show_help() {
+    echo "Islamic Companion CLI"
+    echo "---------------------"
+    echo "Usage:"
+    echo "  islamic-companion prayer --today | --sync"
+    echo "  islamic-companion fasting --today"
+    echo "  islamic-companion zakat --nisab [--currency IDR]"
+    echo "  islamic-companion calendar --city \"City\" [--month M] [--year Y]"
+    echo "  islamic-companion quotes --random | --setup"
+    echo "  islamic-companion quran --search \"keyword\""
+    echo "  islamic-companion quran --surah NUM [--ayah NUM]"
+    echo "  islamic-companion config --set-loc LAT LONG [--name \"City\"]"
+    echo ""
+}
+
+# Main Dispatcher
+case "$1" in
+    prayer)
+        source "${LIB_DIR}/prayer.sh"
+        shift
+        handle_prayer "$@"
+        ;;
+    fasting)
+        source "${LIB_DIR}/fasting.sh"
+        shift
+        handle_fasting "$@"
+        ;;
+    zakat)
+        source "${LIB_DIR}/zakat.sh"
+        shift
+        handle_zakat "$@"
+        ;;
+    calendar)
+        source "${LIB_DIR}/calendar.sh"
+        shift
+        handle_calendar "$@"
+        ;;
+    quotes)
+        source "${LIB_DIR}/quotes.sh"
+        shift
+        handle_quotes "$@"
+        ;;
+    quran)
+        source "${LIB_DIR}/quran.sh"
+        shift
+        handle_quran "$@"
+        ;;
+    config)
+        shift
+        if [[ "$1" == "--set-loc" ]]; then
+            lat="$2"
+            long="$3"
+            shift 3
+            name=""
+            if [[ "$1" == "--name" ]]; then
+                name="$2"
+            fi
+            
+            # Simple config update using Python if available, or just overwrite config.json manually with sed (risky)
+            # Since we have Python available in the original skill, we can use a tiny helper script or just pure bash if easy.
+            # But the user said "alpine doesn't have python". So we must use pure bash.
+            
+            # Read existing config or create default
+            # Using jq to update is best
+            if command -v jq >/dev/null 2>&1; then
+                # Create tmp file
+                tmp=$(mktemp)
+                # Ensure config exists
+                if [ ! -f "$CONFIG_JSON" ]; then cp "$EXAMPLE_CONFIG" "$CONFIG_JSON"; fi
+                
+                jq --arg lat "$lat" --arg long "$long" --arg name "$name" \
+                   '.location.latitude = ($lat|tonumber) | .location.longitude = ($long|tonumber) | if $name != "" then .location.name = $name else . end' \
+                   "$CONFIG_JSON" > "$tmp" && mv "$tmp" "$CONFIG_JSON"
+                   
+                echo "Location updated to $lat, $long ($name)"
+            else
+                echo "Error: 'jq' is required to update configuration safely." >&2
+                exit 1
+            fi
+        else
+            show_help
+        fi
+        ;;
+    *)
+        show_help
+        ;;
+esac
