@@ -34,14 +34,14 @@ show_help() {
     echo "Islamic Companion CLI"
     echo "---------------------"
     echo "Usage:"
-    echo "  islamic-companion prayer --today | --sync"
-    echo "  islamic-companion fasting --today"
+    echo "  islamic-companion prayer --today | --sync [--lat L] [--long L]"
+    echo "  islamic-companion fasting --today [--lat L] [--long L]"
     echo "  islamic-companion zakat --nisab [--currency IDR]"
     echo "  islamic-companion calendar --city \"City\" [--month M] [--year Y]"
     echo "  islamic-companion quotes --random | --setup"
     echo "  islamic-companion quran --search \"keyword\""
     echo "  islamic-companion quran --surah NUM [--ayah NUM]"
-    echo "  islamic-companion config --set-loc LAT LONG [--name \"City\"]"
+    echo "  islamic-companion config"
     echo ""
 }
 
@@ -78,40 +78,7 @@ case "$1" in
         handle_quran "$@"
         ;;
     config)
-        shift
-        if [[ "$1" == "--set-loc" ]]; then
-            lat="$2"
-            long="$3"
-            shift 3
-            name=""
-            if [[ "$1" == "--name" ]]; then
-                name="$2"
-            fi
-            
-            # Simple config update using Python if available, or just overwrite config.json manually with sed (risky)
-            # Since we have Python available in the original skill, we can use a tiny helper script or just pure bash if easy.
-            # But the user said "alpine doesn't have python". So we must use pure bash.
-            
-            # Read existing config or create default
-            # Using jq to update is best
-            if command -v jq >/dev/null 2>&1; then
-                # Create tmp file
-                tmp=$(mktemp)
-                # Ensure config exists
-                if [ ! -f "$CONFIG_JSON" ]; then cp "$EXAMPLE_CONFIG" "$CONFIG_JSON"; fi
-                
-                jq --arg lat "$lat" --arg long "$long" --arg name "$name" \
-                   '.location.latitude = ($lat|tonumber) | .location.longitude = ($long|tonumber) | if $name != "" then .location.name = $name else . end' \
-                   "$CONFIG_JSON" > "$tmp" && mv "$tmp" "$CONFIG_JSON"
-                   
-                echo "Location updated to $lat, $long ($name)"
-            else
-                echo "Error: 'jq' is required to update configuration safely." >&2
-                exit 1
-            fi
-        else
-            show_help
-        fi
+        echo "Config options for school/method coming soon. Location is now provided on-the-fly via --lat and --long."
         ;;
     *)
         show_help

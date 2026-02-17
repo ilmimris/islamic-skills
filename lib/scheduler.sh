@@ -6,9 +6,13 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 source "${SCRIPT_DIR}/prayer.sh"
 
 # Handle Sync Command
+# Usage: handle_sync lat long
 handle_sync() {
+    local lat="$1"
+    local long="$2"
+    
     # We need prayer times for today
-    local data=$(get_prayer_times)
+    local data=$(get_prayer_times "$lat" "$long")
     
     if [ -z "$data" ]; then
         echo "Sync failed: No data."

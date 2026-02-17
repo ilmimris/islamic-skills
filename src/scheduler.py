@@ -4,7 +4,7 @@ from datetime import datetime, timedelta
 from api import get_prayer_times, load_config
 
 def handle_sync_command(args):
-    data = get_prayer_times()
+    data = get_prayer_times(latitude=args.lat, longitude=args.long)
     if not data or 'data' not in data:
         print("Sync failed: No data.")
         return

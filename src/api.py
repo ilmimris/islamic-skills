@@ -60,11 +60,15 @@ def fetch_data(endpoint, params):
         print(f"Error fetching data: {e}")
         return None
 
-def get_prayer_times():
+def get_prayer_times(latitude=None, longitude=None):
     config = load_config()
+    
+    if latitude is None or longitude is None:
+        raise ValueError("Latitude and longitude are required.")
+        
     params = {
-        'latitude': config['location']['latitude'],
-        'longitude': config['location']['longitude'],
+        'latitude': latitude,
+        'longitude': longitude,
         'method': config['calculation']['method'],
         'school': config['calculation']['school']
     }
@@ -72,9 +76,9 @@ def get_prayer_times():
     today = datetime.now().strftime("%d-%m-%Y")
     return fetch_data(f'/v1/timings/{today}', params)
 
-def get_fasting_times():
+def get_fasting_times(latitude=None, longitude=None):
     # Same as prayer times for Aladhan
-    return get_prayer_times()
+    return get_prayer_times(latitude, longitude)
 
 def get_calendar_by_city(city, country, month=None, year=None):
     config = load_config()

@@ -57,20 +57,9 @@ handle_calendar() {
         esac
     done
     
-    # If city not provided, try config
+    # If city not provided, error out
     if [ -z "$city" ]; then
-        load_config
-        # Extract city from "City, Country" or just "City"
-        if [[ "$LOCATION_NAME" == *","* ]]; then
-             city=$(echo "$LOCATION_NAME" | cut -d',' -f1 | xargs)
-             country=$(echo "$LOCATION_NAME" | cut -d',' -f2 | xargs)
-        else
-             city="$LOCATION_NAME"
-        fi
-    fi
-    
-    if [ -z "$city" ]; then
-        echo "Error: City is required. Use --city or set in config." >&2
+        echo "Error: City is required. Use --city." >&2
         return 1
     fi
     

@@ -8,15 +8,10 @@ def handle_calendar_command(args):
     city = args.city
     country = args.country
     
-    # If not provided, try to use config location name if it's a city string
+    # If not provided, raise error
     if not city:
-        from api import load_config
-        config = load_config()
-        # Fallback logic: Assume config name is "City, Country" or just "City"
-        loc_name = config['location'].get('name', 'Jakarta')
-        parts = loc_name.split(',')
-        city = parts[0].strip()
-        country = parts[1].strip() if len(parts) > 1 else "Indonesia"
+        print("Error: City is required for the calendar command. Use --city.")
+        return
 
     data = get_calendar_by_city(city, country, month, year)
     

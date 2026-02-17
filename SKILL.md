@@ -25,11 +25,11 @@ This skill consolidates Islamic utilities into a single CLI with shared configur
 Run the CLI using the bash script:
 
 ```bash
-# Get today's prayer times
-./bin/islamic-companion prayer --today
+# Get today's prayer times (provide latitude and longitude)
+./bin/islamic-companion prayer --today --lat -6.2088 --long 106.8456
 
-# Setup daily quote automation
-./bin/islamic-companion quotes --setup
+# Setup daily quote automation for specific location
+./bin/islamic-companion prayer --sync --lat -6.2088 --long 106.8456
 
 # Get a random quote
 ./bin/islamic-companion quotes --random
@@ -41,7 +41,7 @@ Run the CLI using the bash script:
 ./bin/islamic-companion prayer --sync
 
 # Check fasting times (Imsak/Maghrib)
-./bin/islamic-companion fasting --today
+./bin/islamic-companion fasting --today --lat -6.2088 --long 106.8456
 
 # Check Zakat Nisab values
 ./bin/islamic-companion zakat --nisab
@@ -58,16 +58,10 @@ Run the CLI using the bash script:
 
 ## Configuration
 
-Edit `skills/islamic-companion/config.json` to set your location and calculation method.
-Note: `config.bash` is auto-generated from `config.json` for performance.
+Edit `config.json` to set your calculation method and Zakat preferences. Location is now provided on-the-fly via CLI arguments.
 
 ```json
 {
-  "location": {
-    "latitude": -6.2088,
-    "longitude": 106.8456,
-    "name": "Jakarta"
-  },
   "calculation": {
     "method": 20,
     "school": 0
@@ -86,11 +80,9 @@ Note: `config.bash` is auto-generated from `config.json` for performance.
 - **School 0:** Standard (Shafi, Maliki, Hanbali)
 - **School 1:** Hanafi
 
-## Intent Mappings (for Agent)
-
 | User Intent | Command Executed |
 | :--- | :--- |
-| "Get prayer times" | `./bin/islamic-companion prayer --today` |
+| "Get prayer times" | `./bin/islamic-companion prayer --today --lat [LAT] --long [LONG]` |
 | "Show me the calendar for [City]" | `./bin/islamic-companion calendar --city [City]` |
 | "Setup daily Islamic quotes" | `./bin/islamic-companion quotes --setup` |
 | "Give me a random Islamic quote" | `./bin/islamic-companion quotes --random` |
@@ -123,11 +115,9 @@ Note: `config.bash` is auto-generated from `config.json` for performance.
    ```
 3. Ensure `curl` is installed. `jq` is recommended for JSON parsing speed and reliability.
 
-## Usage
-
-Run the CLI using the bash script wrapper, which handles configuration loading and environment setup:
+Run the CLI using the bash script wrapper, which handles configuration loading and environment setup. Location must be provided on-the-fly:
 
 ```bash
 # Get today's prayer times (uses HTTPS)
-./bin/islamic-companion prayer --today
-
+./bin/islamic-companion prayer --today --lat -6.2088 --long 106.8456
+```

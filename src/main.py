@@ -52,10 +52,14 @@ def main():
     p_parser = subparsers.add_parser('prayer')
     p_parser.add_argument('--today', action='store_true', help="Show today's prayer times")
     p_parser.add_argument('--sync', action='store_true', help="Sync schedule to cron")
+    p_parser.add_argument('--lat', type=float, help="Latitude")
+    p_parser.add_argument('--long', type=float, help="Longitude")
     
     # Fasting
     f_parser = subparsers.add_parser('fasting')
     f_parser.add_argument('--today', action='store_true', help="Show fasting times")
+    f_parser.add_argument('--lat', type=float, help="Latitude")
+    f_parser.add_argument('--long', type=float, help="Longitude")
     
     # Zakat
     z_parser = subparsers.add_parser('zakat')
@@ -74,10 +78,8 @@ def main():
     q_parser.add_argument('--setup', action='store_true', help="Setup daily quote automation")
     q_parser.add_argument('--random', action='store_true', help="Get a random quote")
 
-    # Config
+    # Config (No longer handles location)
     c_parser = subparsers.add_parser('config')
-    c_parser.add_argument('--set-loc', nargs=2, metavar=('LAT', 'LONG'), type=float, help="Set latitude and longitude")
-    c_parser.add_argument('--name', type=str, help="Location name")
 
     args = parser.parse_args()
     
@@ -105,16 +107,7 @@ def main():
     elif args.command == 'quran':
         handle_quran_command(args)
     elif args.command == 'config':
-        if args.set_loc:
-            config = load_config()
-            config['location']['latitude'] = args.set_loc[0]
-            config['location']['longitude'] = args.set_loc[1]
-            if args.name:
-                config['location']['name'] = args.name
-            
-            with open(CONFIG_PATH, 'w') as f:
-                json.dump(config, f, indent=2)
-            print(f"Location updated to {args.name or 'custom coordinates'}: {args.set_loc}")
+        print("Config options for school/method coming soon. Location is now provided on-the-fly via --lat and --long.")
     else:
         parser.print_help()
 

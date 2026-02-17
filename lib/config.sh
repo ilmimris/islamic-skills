@@ -25,10 +25,6 @@ generate_bash_config() {
     local json_content=$(cat "$json_file")
     
     # Extract values using our json helper
-    local lat=$(json_get "$json_content" "location.latitude")
-    local long=$(json_get "$json_content" "location.longitude")
-    local name=$(json_get "$json_content" "location.name")
-    
     local method=$(json_get "$json_content" "calculation.method")
     local school=$(json_get "$json_content" "calculation.school")
     
@@ -42,10 +38,6 @@ generate_bash_config() {
     cat > "$bash_file" <<EOF
 # Auto-generated config - DO NOT EDIT MANUALLY
 # Edit config.json instead
-
-LOCATION_LATITUDE="${lat:- -6.2088}"
-LOCATION_LONGITUDE="${long:- 106.8456}"
-LOCATION_NAME="${name:-Jakarta}"
 
 CALCULATION_METHOD="${method:-20}"
 CALCULATION_SCHOOL="${school:-1}"

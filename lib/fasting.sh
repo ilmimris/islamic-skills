@@ -8,16 +8,20 @@ source "${SCRIPT_DIR}/prayer.sh"
 # Handle Fasting Command
 handle_fasting() {
     local show_today=false
+    local lat=""
+    local long=""
     
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --today) show_today=true; shift ;;
+            --lat) lat="$2"; shift 2 ;;
+            --long) long="$2"; shift 2 ;;
             *) shift ;;
         esac
     done
     
     if [ "$show_today" = true ]; then
-        local data=$(get_prayer_times)
+        local data=$(get_prayer_times "$lat" "$long")
         if [ $? -ne 0 ]; then
             echo "Could not retrieve fasting times."
             return 1

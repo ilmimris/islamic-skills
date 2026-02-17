@@ -9,8 +9,16 @@ source "${SCRIPT_DIR}/api.sh"
 source "${SCRIPT_DIR}/format.sh"
 
 # Get Prayer Times
-# Usage: get_prayer_times
+# Usage: get_prayer_times lat long
 get_prayer_times() {
+    local lat="$1"
+    local long="$2"
+    
+    if [ -z "$lat" ] || [ -z "$long" ]; then
+        echo "Error: Latitude and longitude are required." >&2
+        return 1
+    fi
+    
     load_config
     
     # Get today's date
@@ -40,23 +48,27 @@ get_prayer_times() {
 handle_prayer() {
     local show_today=false
     local do_sync=false
+    local lat=""
+    local long=""
     
     while [[ $# -gt 0 ]]; do
         case "$1" in
             --today) show_today=true; shift ;;
             --sync) do_sync=true; shift ;;
+            --lat) lat="$2"; shift 2 ;;
+            --long) long="$2"; shift 2 ;;
             *) shift ;;
         esac
     done
     
     if [ "$do_sync" = true ]; then
         source "${SCRIPT_DIR}/scheduler.sh"
-        handle_sync
+        handle_sync "$lat" "$long"
         return
     fi
     
     if [ "$show_today" = true ]; then
-        local data=$(get_prayer_times)
+        local data=$(get_prayer_times "$lat" "$long")
         if [ $? -ne 0 ]; then
             echo "Could not retrieve prayer times."
             return 1
