@@ -62,7 +62,7 @@ handle_prayer() {
             --today) show_today=true; shift ;;
             --sync) do_sync=true; shift ;;
             --lat) lat="$2"; shift 2 ;;
-            --long) long="$2"; shift 2 ;;
+            --long|--lon) long="$2"; shift 2 ;;
             --timezone|--tz) tz="$2"; shift 2 ;;
             *) shift ;;
         esac

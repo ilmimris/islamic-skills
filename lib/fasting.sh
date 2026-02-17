@@ -14,7 +14,7 @@ handle_fasting() {
         case "$1" in
             --today) show_today=true; shift ;;
             --lat) lat="$2"; shift 2 ;;
-            --long) long="$2"; shift 2 ;;
+            --long|--lon) long="$2"; shift 2 ;;
             --timezone|--tz) tz="$2"; shift 2 ;;
             *) shift ;;
         esac
