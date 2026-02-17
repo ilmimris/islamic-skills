@@ -52,7 +52,7 @@ CALCULATION_SCHOOL="${school:-1}"
 
 ZAKAT_CURRENCY="${zakat_curr:-IDR}"
 ZAKAT_GOLD_THRESHOLD="${zakat_gold:-85}"
-ZAKAT_API_KEY="${zakat_key}"
+ZAKAT_API_KEY="\${ZAKAT_API_KEY:-$zakat_key}"
 
 QURAN_LANGUAGE="${quran_lang:-id}"
 EOF

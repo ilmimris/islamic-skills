@@ -32,12 +32,12 @@ def fetch_data(endpoint, params):
             return json.load(f)
 
     # Use Aladhan API
-    url = f"http://api.aladhan.com{endpoint}"
+    url = f"https://api.aladhan.com{endpoint}"
     
     # Handle Zakat specially via IslamicAPI.com
     if 'zakat' in endpoint:
         config = load_config()
-        api_key = config.get('zakat', {}).get('api_key')
+        api_key = os.environ.get('ZAKAT_API_KEY') or config.get('zakat', {}).get('api_key')
         
         if not api_key:
             return {"error": "Missing API Key. Please get one from https://islamicapi.com/"}

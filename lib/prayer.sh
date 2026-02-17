@@ -24,7 +24,7 @@ get_prayer_times() {
     fi
     
     # Fetch from API
-    local url="http://api.aladhan.com/v1/timings/${today}?latitude=${LOCATION_LATITUDE}&longitude=${LOCATION_LONGITUDE}&method=${CALCULATION_METHOD}&school=${CALCULATION_SCHOOL}"
+    local url="https://api.aladhan.com/v1/timings/${today}?latitude=${LOCATION_LATITUDE}&longitude=${LOCATION_LONGITUDE}&method=${CALCULATION_METHOD}&school=${CALCULATION_SCHOOL}"
     
     local response=$(api_call "$url")
     if [ $? -eq 0 ] && [ ! -z "$response" ]; then
