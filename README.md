@@ -65,7 +65,7 @@ Note: `config.bash` is auto-generated from `config.json` for performance.
   },
   "calculation": {
     "method": 20,
-    "school": 1
+    "school": 0
   },
   "zakat": {
     "currency": "IDR",
@@ -78,8 +78,8 @@ Note: `config.bash` is auto-generated from `config.json` for performance.
 
 ### Calculation Methods
 - **Method 20:** Kemenag RI (Indonesia)
-- **School 1:** Standard (Shafi, Maliki, Hanbali)
-- **School 2:** Hanafi
+- **School 0:** Standard (Shafi, Maliki, Hanbali)
+- **School 1:** Hanafi
 
 ## Dependencies
 
