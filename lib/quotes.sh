@@ -58,10 +58,10 @@ handle_quotes() {
     done
     
     if [ "$do_setup" = true ]; then
-        local job="{\"name\": \"islamic-companion-daily-quote\", \"schedule\": {\"kind\": \"cron\", \"expr\": \"0 8 * * *\", \"tz\": \"Asia/Jakarta\"}, \"payload\": {\"kind\": \"agentTurn\", \"message\": \"Give me my daily Islamic quote from the islamic-companion skill.\"}, \"sessionTarget\": \"isolated\", \"delivery\": {\"mode\": \"announce\"}}"
+        # Output prompt as requested
+        echo "Prompt: Please add a cron job named \"islamic-companion-daily-quote\" running daily at 08:00 AM (Asia/Jakarta) that announces: \"Give me my daily Islamic quote from the islamic-companion skill.\""
         
-        echo "CRON_ADD: $job"
-        echo -e "\nDaily quote automation scheduled for 08:00 AM (Asia/Jakarta)."
+        echo -e "\nDaily quote automation prompt generated."
         return
     fi
     

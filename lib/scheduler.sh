@@ -47,15 +47,16 @@ handle_sync() {
         fi
         
         if [ "$prayer_ts" -gt "$now_ts" ]; then
-            # Construct JSON job object
-            # We construct it manually string building to avoid heavy dependencies
-            local iso_time="${today_str}T${time_str}:00"
+            local iso_time="${today_str}T${time_str}:00+07:00" # Assuming +07:00 or modify based on TZ if possible
+            # Ideally we extract timezone offset from data.meta.timezone
             
-            # Simple JSON construction
+            # Simple CLI construction
             local prayer_lower=$(echo "$prayer" | tr '[:upper:]' '[:lower:]')
-            local job="{\"name\": \"prayer-${prayer_lower}-${today_str}\", \"schedule\": {\"kind\": \"at\", \"at\": \"${iso_time}\"}, \"payload\": {\"kind\": \"systemEvent\", \"text\": \"It is time for ${prayer} prayer.\"}, \"sessionTarget\": \"main\"}"
+            local job_name="prayer-${prayer_lower}-${today_str}"
+            local message="It is time for ${prayer} prayer."
             
-            echo "CRON_ADD: $job"
+            # Output prompt as requested (not command string)
+            echo "Prompt: Please add a cron job named \"$job_name\" at \"$iso_time\" that announces: \"$message\""
         fi
     done
     

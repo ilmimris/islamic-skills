@@ -32,15 +32,16 @@ def handle_sync_command(args):
             continue
         
         if prayer_dt > now:
-            # Create a one-off job for today
-            job = {
-                "name": f"prayer-{name.lower()}-{today_str}",
-                "schedule": {"kind": "at", "at": prayer_dt.isoformat()},
-                "payload": {"kind": "systemEvent", "text": f"It is time for {name} prayer."},
-                "sessionTarget": "main"
-            }
-            # Print in a format the agent can potentially parse or user can see
-            print(f"CRON_ADD: {json.dumps(job)}")
+            # Create a one-off job for today with CLI syntax
+            # Assuming +07:00 for simplicity or need to fetch offset
+            iso_time = prayer_dt.isoformat()
+            if '+' not in iso_time and 'Z' not in iso_time:
+                 iso_time += "+07:00"
+
+            job_name = f"prayer-{name.lower()}-{today_str}"
+            message = f"It is time for {name} prayer."
+            
+            print(f'Prompt: Please add a cron job named "{job_name}" at "{iso_time}" that announces: "{message}"')
             
     print("SECURITY NOTICE: The following CRON_ADD lines will schedule jobs.")
     print("Please review the commands below before allowing them to run, as they will execute code on this machine.")

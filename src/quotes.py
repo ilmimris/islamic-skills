@@ -3,16 +3,9 @@ import json
 
 def handle_quotes_command(args):
     if args.setup:
-        # Generate the cron command for the agent to execute
-        job = {
-            "name": "islamic-companion-daily-quote",
-            "schedule": {"kind": "cron", "expr": "0 8 * * *", "tz": "Asia/Jakarta"},
-            "payload": {"kind": "agentTurn", "message": "Give me my daily Islamic quote from the islamic-companion skill."},
-            "sessionTarget": "isolated",
-            "delivery": {"mode": "announce"}
-        }
-        print(f"CRON_ADD: {json.dumps(job)}")
-        print("\nDaily quote automation scheduled for 08:00 AM (Asia/Jakarta).")
+        # Output prompt for the agent
+        print('Prompt: Please add a cron job named "islamic-companion-daily-quote" running daily at 08:00 AM (Asia/Jakarta) that announces: "Give me my daily Islamic quote from the islamic-companion skill."')
+        print("\nDaily quote automation prompt generated.")
         return
 
     # Normal fetch and display
