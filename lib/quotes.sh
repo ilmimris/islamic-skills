@@ -59,7 +59,7 @@ handle_quotes() {
     
     if [ "$do_setup" = true ]; then
         # Output prompt as requested
-        echo "Prompt: Please add a cron job named \"islamic-companion-daily-quote\" running daily at 08:00 AM (Asia/Jakarta) that announces: \"Give me my daily Islamic quote from the islamic-companion skill.\""
+        echo "Please add a cron job named \"islamic-companion-daily-quote\" running daily at 08:00 AM (Asia/Jakarta) that announces: \"Give me my daily Islamic quote from the islamic-companion skill.\""
         
         echo -e "\nDaily quote automation prompt generated."
         return

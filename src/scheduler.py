@@ -41,7 +41,7 @@ def handle_sync_command(args):
             job_name = f"prayer-{name.lower()}-{today_str}"
             message = f"It is time for {name} prayer."
             
-            print(f'Prompt: Please add a cron job named "{job_name}" at "{iso_time}" that announces: "{message}"')
+            print(f'Please add a cron job named "{job_name}" at "{iso_time}" that announces: "{message}"')
             
     print("SECURITY NOTICE: The following CRON_ADD lines will schedule jobs.")
     print("Please review the commands below before allowing them to run, as they will execute code on this machine.")

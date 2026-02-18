@@ -56,7 +56,7 @@ handle_sync() {
             local message="It is time for ${prayer} prayer."
             
             # Output prompt as requested (not command string)
-            echo "Prompt: Please add a cron job named \"$job_name\" at \"$iso_time\" that announces: \"$message\""
+            echo "Please add a cron job named \"$job_name\" at \"$iso_time\" that announces: \"$message\""
         fi
     done
     

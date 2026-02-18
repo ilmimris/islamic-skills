@@ -4,7 +4,7 @@ import json
 def handle_quotes_command(args):
     if args.setup:
         # Output prompt for the agent
-        print('Prompt: Please add a cron job named "islamic-companion-daily-quote" running daily at 08:00 AM (Asia/Jakarta) that announces: "Give me my daily Islamic quote from the islamic-companion skill."')
+        print('Please add a cron job named "islamic-companion-daily-quote" running daily at 08:00 AM (Asia/Jakarta) that announces: "Give me my daily Islamic quote from the islamic-companion skill."')
         print("\nDaily quote automation prompt generated.")
         return
 
