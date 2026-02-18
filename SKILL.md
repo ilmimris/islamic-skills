@@ -121,6 +121,53 @@ Edit `config.json` to set your calculation method and Zakat preferences. Locatio
 Run the CLI using the bash script wrapper, which handles configuration loading and environment setup. Location must be provided on-the-fly:
 
 ```bash
+```
 # Get today's prayer times (uses HTTPS)
 ./bin/islamic-companion prayer --today --lat -6.2088 --long 106.8456
 ```
+
+## Tools
+
+When installing this skill for openclaw, the agent should update `TOOLS.md` to insert these lines:
+
+- Get today's prayer times for Jakarta (explicit timezone override)
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion prayer --today --lat -6.2088 --long 106.8456 --tz Asia/Jakarta
+    ```
+- Setup daily quote automation for specific location
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion prayer --sync --lat -6.2088 --long 106.8456 --timezone Asia/Jakarta
+    ```
+- Get a random quote
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion quotes --random
+    ```
+- Get monthly calendar (Example: Serang, Banten)
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion calendar --city "Serang" --month 2 --year 2026
+    ```
+- Sync prayer schedule to cron (generates commands)
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion prayer --sync --lat -6.2088 --long 106.8456 --tz Asia/Jakarta
+    ```
+- Check fasting times (Imsak/Maghrib)
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion fasting --today --lat -6.2088 --long 106.8456
+    ```
+- Check Zakat Nisab values
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion zakat --nisab
+    ```
+- Search Quran for keyword
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion quran --search "sabar"
+    ```
+- Get specific Surah (e.g., Al-Fatihah)
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion quran --surah 1
+    ```
+- Get specific Ayah (e.g., Al-Baqarah:255)
+    ```
+    ~/.openclaw/skills/islamic-companion/bin/islamic-companion quran --surah 2 --ayah 255
+    ```
+
